@@ -9,14 +9,10 @@ def ler_dados_csv (nome_arquivo, ano):
         'rodada' (int) : o número da rodada, 'data' (datetime): a data da partida, 'mandante' (str) : o time mandante, 'visitante' (str) : o time visitante, 'mandante_gols' (int) : o número de gols do time mandante, 'visitante_gols' (int) : o número de gols do time visitante  e 'vencedor' (str) :o time vencedor da partida (em caso de empate o valor é '-').
         '''
 
-        with open(nome_arquivo, 'r', encoding='utf-8') as arquivo:
+        with open(nome_arquivo, 'r') as arquivo:
             leitor = csv.DictReader(arquivo)
-            partidas = []
-            for linha in leitor:
-                if int(linha['ano']) == ano:
-                    partidas.append(linha)
-        return partidas
-
+            dados = [linha for linha in leitor if linha['data'].endswith(str(ano))]
+        return dados
 
 
 def contar_partidas (dados):
@@ -130,8 +126,4 @@ def gerar_relatorio_brasileirao (nome_arquivo, ano):
 
     return relatorio
 
-
-# Testando as funções
-
-ano = int(input('Digite o ano do campeonato: '))
-print(gerar_relatorio_brasileirao('brasileirao.csv', ano))
+print(gerar_relatorio_brasileirao('brasileirao.csv', 2019))
